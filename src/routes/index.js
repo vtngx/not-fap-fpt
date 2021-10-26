@@ -8,6 +8,9 @@ const requestRoutes = require('./request.route')
 const departmentRoutes = require('./department.route')
 
 module.exports = app => {
+  app.get('/', (req, res) => {
+    return res.send("not-fap backend")
+  })
   app.use('/api/auth', authRoutes),
   app.use('/api/news', newsRoutes),
   app.use('/api/admin', adminRoutes),
