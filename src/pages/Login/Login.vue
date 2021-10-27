@@ -5,7 +5,7 @@
         <v-col cols="7" class="main-part d-none d-md-none d-lg-flex">
           <div class="d-flex">
             <v-img src="@/assets/logo.svg" contain></v-img>
-            <p>Vue Material Admin</p>
+            <p>NotFPT Academic Portal</p>
           </div>
         </v-col>
         <v-col cols="12" lg="5" class="login-part d-flex align-center justify-center">
@@ -14,14 +14,14 @@
               <div class="login-wrapper pt-md-4 pt-0">
                 <v-tabs grow>
                   <v-tabs-slider></v-tabs-slider>
-                  <v-tab :href="`#tab-login`">
-                    LOGIN
+                  <v-tab :href="`#tab-login-student`">
+                    STUDENT
                   </v-tab>
-                  <v-tab :href="`#tab-newUser`">
-                    New User
+                  <v-tab :href="`#tab-login-admin`">
+                    ADMIN
                   </v-tab>
 
-                  <v-tab-item :value="'tab-login'" >
+                  <v-tab-item :value="'tab-login-student'" >
                     <v-form>
                       <v-container>
                         <v-row class="flex-column">
@@ -72,7 +72,8 @@
                     </v-form>
                   </v-tab-item>
 
-                  <v-tab-item :value="'tab-newUser'" >
+                  <v-tab-item :value="'tab-login-admin'" >
+
                     <v-form>
                       <v-container>
                         <v-row class="flex-column">
