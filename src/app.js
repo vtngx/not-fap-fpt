@@ -17,8 +17,10 @@ Vue.use(VueGoogleMaps, {
 
 Vue.config.productionTip = false
 
-new Vue({
-  vuetify,
-  router,
-  render: h => h(App), store
-}).$mount('#app')
+export default createApp=function(){
+  return new Vue({
+    vuetify,
+    router,
+    render: h => h(App), store
+  }).$mount('#app')
+}
