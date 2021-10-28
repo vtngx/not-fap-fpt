@@ -10,10 +10,6 @@
     :mini-variant-width="sidebarMinWidth"
     :class="{'drawer-mini': !DRAWER_STATE}">
 
-    <div class="v-list">
-      <a class="v-list-item v-list-item--link grey--text text-sm-h6" target="_blank" href="https://flatlogic.com/generator">Generate App</a>
-    </div>
-
     <v-list>
       <template v-for="(item, i) in items">
         <v-row
@@ -33,12 +29,14 @@
             class="text-center">
           </v-col>
         </v-row>
+
         <v-divider
           v-else-if="item.divider"
           :key="i"
           dark
           class="my-4"
         ></v-divider>
+        
         <v-list-group
           color="primary"
           v-else-if="item.children && DRAWER_STATE"
@@ -46,7 +44,7 @@
           v-model="item.model"
           append-icon="">
             <template v-slot:prependIcon>
-              <v-icon size="28">mdi-image-filter-none</v-icon>
+              <v-icon size="28">mdi-border-all</v-icon>
             </template>
             <template v-slot:activator >
               <v-list-item-content >
@@ -76,6 +74,7 @@
           v-else
           :key="item.text"
           :href="item.href ? item.href : null"
+          :target="item.target ? item.target : null"
           :to="item.link === '#' ? null : item.link"
           link>
           <v-list-item-action>
@@ -108,12 +107,14 @@ import {mapActions, mapState} from 'vuex'
       return {
         items: [
           { title: 'Dashboard', icon: 'mdi-home', link: '/dashboard' },
-          { title: 'Typography', icon: 'mdi-format-size', link: '/typography' },
-          { title: 'Tables', icon: 'mdi-grid-large', link: '/tables' },
-          { title: 'Notifications', icon: 'mdi-bell-outline', link: '/notifications' },
+          { title: 'Employees', icon: 'mdi-account-multiple', link: '/employees' },
+          { title: 'Students', icon: 'mdi-account-check', link: '/dashboard' },
+          { title: 'Majors', icon: 'mdi-star', link: '/dashboard' },
+          { title: 'Departments', icon: 'mdi-domain', link: '/departments' },
+          { title: 'Courses', icon: 'mdi-book-variant', link: '/dashboard' },
           {
-            title: 'UI Elements',
-            icon: 'mdi-image-filter-none',
+            title: 'Classes',
+            icon: 'mdi-border-all',
             link: '/icons',
             model: false,
             children: [
@@ -122,16 +123,15 @@ import {mapActions, mapState} from 'vuex'
               { title: 'Maps', icon: 'mdi-circle-small', link: '/maps'},
             ],
           },
+          { title: 'News', icon: 'mdi-email', link: '/dashboard' },
+          { title: 'Requests', icon: 'mdi-bell', link: '/dashboard' },
+
+          // { title: 'Typography', icon: 'mdi-format-size', link: '/typography' },
+          // { title: 'Tables', icon: 'mdi-grid-large', link: '/tables' },
+          // { title: 'Notifications', icon: 'mdi-bell-outline', link: '/notifications' },
           { divider: true },
           { heading: 'HELP' },
-          { title: 'Library', icon: 'mdi-book-variant-multiple', href: 'https://flatlogic.com/templates'},
-          { title: 'Support', icon: 'mdi-forum', href: 'https://flatlogic.com/forum/'},
-          { title: 'FAQ', icon: 'mdi-help-circle-outline', href:'https://flatlogic.com/templates/vue-material-template'},
-          { divider: true },
-          { heading: 'PROJECTS' },
-          { title: 'My recent', icon: 'mdi-circle-medium', color: 'warning'},
-          { title: 'Starred', icon: 'mdi-circle-medium', color: 'primary'},
-          { title: 'Background', icon: 'mdi-circle-medium', color: 'error'}
+          { title: 'Support', icon: 'mdi-forum', href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', target: "_blank"},
 
         ],
         sidebarWidth: 240,

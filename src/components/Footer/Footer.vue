@@ -38,15 +38,13 @@ export default {
   data: () => ({
     config,
     icons: [
-      {icon: 'mdi-facebook', link: 'https://twitter.com/flatlogic/'},
-      {icon: 'mdi-twitter', link: 'https://www.facebook.com/flatlogic'},
-      {icon: 'mdi-github', link: 'https://github.com/flatlogic/'},
+      { icon: 'mdi-github', link: '' },
 
     ],
     links: [
-      {text: 'Flatlogic', link: 'https://flatlogic.com/'},
-      {text: 'About Us', link: 'https://flatlogic.com/about'},
-      {text: 'Blog', link: 'https://flatlogic.com/blog'},
+      // {text: 'Flatlogic', link: 'https://flatlogic.com/'},
+      // {text: 'About Us', link: 'https://flatlogic.com/about'},
+      // {text: 'Blog', link: 'https://flatlogic.com/blog'},
     ]
   }),
 }

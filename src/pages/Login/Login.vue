@@ -8,6 +8,7 @@
             <p>NotFPT Academic Portal</p>
           </div>
         </v-col>
+        
         <v-col cols="12" lg="5" class="login-part d-flex align-center justify-center">
           <v-row no-gutters class="align-start">
             <v-col cols="12" class="login-part d-flex align-center justify-center flex-column">
@@ -25,23 +26,25 @@
                     <v-form>
                       <v-container>
                         <v-row class="flex-column">
-                          <v-col>
-                            <p class="login-slogan display-2 text-center font-weight-medium my-10">Good Morning, User</p>
-                            <v-btn height="45" block color="white" elevation="0" class="google text-capitalize">
+                          <!-- <v-col> -->
+                            <!-- <p class="login-slogan display-2 text-center font-weight-medium my-10">Good Morning, User</p> -->
+
+                            <!-- <v-btn height="45" block color="white" elevation="0" class="google text-capitalize my-10">
                               <v-img src="@/assets/google.svg" max-width="30" class="mr-4"></v-img>
                               Sign in with Google</v-btn>
                           </v-col>
-                          <v-col cols="12" class="d-flex align-center my-8">
+
+                          <v-col cols="12" class="d-flex align-center my-1">
                             <v-divider></v-divider>
                             <span class="px-5"> or </span>
                             <v-divider></v-divider>
-                          </v-col>
-                          <v-form>
+                          </v-col> -->
+
+                          <v-form class="align-center my-5">
                             <v-col>
                               <v-text-field
                                   v-model="email"
                                   :rules="emailRules"
-                                  value="admin@flatlogic.com"
                                   label="Email Address"
                                   required
                               ></v-text-field>
@@ -50,7 +53,6 @@
                                   :rules="passRules"
                                   type="password"
                                   label="Password"
-                                  hint="At least 6 characters"
                                   required
                               ></v-text-field>
 
@@ -58,13 +60,12 @@
                             <v-col class="d-flex justify-space-between">
                               <v-btn
                                   class="text-capitalize"
-                                  large
+                                  block
                                   :disabled="password.length === 0 || email.length === 0"
                                   color="primary"
                                   @click="login"
                               >
                                 Login</v-btn>
-                              <v-btn large text class="text-capitalize primary--text">Forget Password</v-btn>
                             </v-col>
                           </v-form>
                         </v-row>
@@ -78,26 +79,32 @@
                       <v-container>
                         <v-row class="flex-column">
 
-                          <v-col>
+                          <!-- <v-col>
                             <p class="login-slogan display-2 text-center font-weight-medium mt-10">Welcome!</p>
                             <p class="login-slogan display-1 text-center font-weight-medium mb-10">Create your account</p>
-                          </v-col>
+                          </v-col> -->
 
-                          <v-form>
+                          <!-- <v-btn height="45" block color="white" elevation="0" class="google text-capitalize my-10">
+                            <v-img src="@/assets/google.svg" max-width="30" class="mr-4"></v-img>
+                            Sign in with Google
+                          </v-btn>
+
+                          <v-col cols="12" class="d-flex align-center my-1">
+                            <v-divider></v-divider>
+                            <span class="px-5"> or </span>
+                            <v-divider></v-divider>
+                          </v-col> -->
+
+                          <v-form class="align-center my-5">
                             <v-col>
                               <v-text-field
-                                  v-model="createFullName"
-                                  label="Full Name"
-                                  required
-                              ></v-text-field>
-                              <v-text-field
-                                  v-model="createEmail"
+                                  v-model="emailAdmin"
                                   :rules="emailRules"
                                   label="Email Address"
                                   required
                               ></v-text-field>
                               <v-text-field
-                                  v-model="createPassword"
+                                  v-model="passwordAdmin"
                                   :rules="passRules"
                                   type="password"
                                   label="Password"
@@ -107,25 +114,15 @@
                             </v-col>
                             <v-col class="d-flex justify-space-between">
                               <v-btn
-                                  large
+                                  class="text-capitalize"
                                   block
-                                  :disabled="createFullName.length === 0 || createEmail.length === 0 || createPassword === 0"
+                                  :disabled="passwordAdmin.length === 0 || emailAdmin.length === 0"
                                   color="primary"
-                                  @click="login"
+                                  @click="loginAdmin"
                               >
-                                Create your account</v-btn>
+                                Login</v-btn>
                             </v-col>
                           </v-form>
-
-                          <v-col cols="12" class="d-flex align-center my-4">
-                            <v-divider></v-divider>
-                            <span class="px-5"> or </span>
-                            <v-divider></v-divider>
-                          </v-col>
-
-                          <v-btn height="45" block color="white" elevation="0" class="google text-capitalize">
-                            <v-img src="@/assets/google.svg" max-width="30" class="mr-4"></v-img>
-                            Sign in with Google</v-btn>
                         </v-row>
                       </v-container>
                     </v-form>
@@ -133,11 +130,6 @@
 
                 </v-tabs>
               </div>
-            </v-col>
-            <v-col cols="12" class="d-flex justify-center">
-              <v-footer>
-                <div class="primary--text">© 2014-2020 <a href="https://flatlogic.com/" class="text-decoration-none">Flatlogic</a>, LLC. All rights reserved.</div>
-              </v-footer>
             </v-col>
           </v-row>
         </v-col>
@@ -147,20 +139,20 @@
 </template>
 
 <script>
+  import axios from 'axios'
 
   export default {
     name: 'Login',
     data() {
       return {
-        email: 'admin@flatlogic.com',
+        email: '',
         emailRules: [
           v => !!v || 'E-mail is required',
           v => /.+@.+/.test(v) || 'E-mail must be valid',
         ],
-        createFullName: 'John Smith',
-        createEmail: 'john@flatlogic.com',
-        createPassword: '123456',
-        password: '123456',
+        emailAdmin: '',
+        passwordAdmin: '',
+        password: '',
         passRules: [
           v => !!v || 'Password is required',
           v => v.length >= 6 || 'Min 6 characters'
@@ -168,13 +160,35 @@
       }
     },
     methods: {
-      login(){
-        window.localStorage.setItem('authenticated', true);
-        this.$router.push('/dashboard');
+      resetField(field) {
+        field = ''
+        return field
+      },
+      login() {
+        window.alert(`${this.email} : ${this.password}`)
+        // window.localStorage.setItem('authenticated', true);
+        // this.$router.push('/dashboard');
+      },
+      loginAdmin() {
+        axios.post('https://not-fap-be.herokuapp.com/api/auth/login-ad', {
+          email: this.emailAdmin,
+          password: this.passwordAdmin
+        })
+        .then(
+          function(res) {
+            window.localStorage.setItem('token', res.data.token);
+            this.$router.push('/dashboard');
+          }.bind(this)
+        )
+        .catch(e => {
+          const { error } = e.response.data
+          if (error === '')
+            window.alert(error)
+        })
       }
     },
     created() {
-      if (window.localStorage.getItem('authenticated') === 'true') {
+      if (window.localStorage.getItem('token')) {
         this.$router.push('/dashboard');
       }
     }
