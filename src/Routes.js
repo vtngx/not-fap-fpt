@@ -13,9 +13,9 @@ import Layout from '@/components/Layout/Layout'
 
 import Error from "@/pages/Error/Error"
 import Login from "@/pages/Login/Login"
+import Majors from '@/pages/Majors/Majors'
 import Dashboard from '@/pages/Dashboard/Dashboard'
 import Employees from '@/pages/Employees/Employees'
-import Departments from '@/pages/Departments/Departments'
 
 import verifyToken from './utils/checkTokenExp';
 
@@ -41,9 +41,9 @@ const router = new Router({
           component: Employees,
         },
         {
-          path: 'departments',
-          name: 'Departments',
-          component: Departments,
+          path: 'majors',
+          name: 'Majors',
+          component: Majors,
         },
         {
           path: 'dashboard',

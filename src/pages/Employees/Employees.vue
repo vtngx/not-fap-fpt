@@ -319,7 +319,12 @@ export default {
         axios
           .put(
             `https://not-fap-be.herokuapp.com/api/admin/${this.editedItem._id}`,
-            { ...this.editedItem },
+            {
+              name: this.editedItem.name,
+              email: this.editedItem.email,
+              phone: this.editedItem.phone,
+              address: this.editedItem.address,
+            },
             { headers: this.authorizationHeader }
           )
           .then(() => {
@@ -337,7 +342,13 @@ export default {
         axios
           .post(
             'https://not-fap-be.herokuapp.com/api/admin',
-            { ...this.editedItem, code: `XYZ123${Math.round(Math.random(0,999) * 1000)}` },  //  TODO: remove code - need fix backend first
+            {  //  TODO: remove code - need fix backend first
+              code: `XYZ123${Math.round(Math.random(0,999) * 1000)}`,
+              name: this.editedItem.name,
+              email: this.editedItem.email,
+              phone: this.editedItem.phone,
+              address: this.editedItem.address,
+            },
             { headers: this.authorizationHeader }
           )
           .then(() => {
