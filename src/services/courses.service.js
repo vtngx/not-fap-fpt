@@ -1,7 +1,6 @@
 const { orderBy } = require('lodash')
 const Course = require('../models/Course')
 const UserError = require('../utils/userError')
-const Department = require('../models/Department')
 const { BaseStatus } = require('../_base/base.interface')
 
 const listCourses = async (query) => {
@@ -39,16 +38,7 @@ const getCourse = async (_id) => {
 }
 
 const createCourse = async (body, reqUser) => {
-  try {
-    const { department } = body
-    const dep = await Department.findOne({
-      department,
-      deletedAt: null
-    })
-
-    if (!dep)
-      return new UserErro(404, 'Department Not Found')
-    
+  try {    
     const exists = await Course.findOne({
       code: body.code,
       deletedAt: null,
@@ -81,17 +71,6 @@ const updateCourse = async (_id, body, reqUser) => {
     })
 
     if (exists) return new UserError(401, "Course Already Exists")
-
-    if (String(course.department) !== String(body.department)) {
-      const { department } = body
-      const dep = await Department.findOne({
-        department,
-        deletedAt: null
-      })
-  
-      if (!dep)
-        return new UserErro(404, 'Department Not Found')
-    }
     
     course.set({
       ...body,

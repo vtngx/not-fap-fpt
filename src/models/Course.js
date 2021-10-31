@@ -67,11 +67,6 @@ const CourseSchema = new mongoose.Schema({
         ref: "Admin",
         default: null
     },
-    department: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Department",
-        default: null
-    },
 })
 
 module.exports = mongoose.model('Course', CourseSchema, "courses")

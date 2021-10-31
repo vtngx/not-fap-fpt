@@ -46,10 +46,20 @@ const deleteMajor = async (req, res, next) => {
   return sendResponse({}, res)
 }
 
+const getMarjorCourses = async (req, res, next) => {
+  const data = await majorsService.getMarjorCourses(req.params.id)
+  
+  if (data instanceof Error)
+    return next(data)
+
+  return sendResponse(data, res)
+}
+
 module.exports = {
   listMajors,
   getMajor,
   createMajor,
   updateMajor,
   deleteMajor,
+  getMarjorCourses,
 }

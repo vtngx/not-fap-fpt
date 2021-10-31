@@ -40,7 +40,7 @@ const listMajors = async (query) => {
     const skip = (page - 1) * limit
 
     const majors = await Major
-      .find({ deletedAt: null, status: BaseStatus.ACTIVE })
+      .find({ deletedAt: null })
       .skip(skip)
       .limit(limit)
 
@@ -57,12 +57,10 @@ const getMajor = async (_id) => {
         _id,
         deletedAt: null
       })
-      .populate({ 
+      .populate({
         path: 'courses',
-        populate: {
-          path: 'department'
-        } 
-    })
+        match: { deletedAt: null }
+      })
 
     return major
       ? major
@@ -136,10 +134,32 @@ const deleteMajor = async (_id, reqUser) => {
   }
 }
 
+const getMarjorCourses = async (_id) => {
+  try {
+    const major = await Major
+      .findOne({ _id, deletedAt: null })
+      .populate({
+        path: 'courses',
+        match: { deletedAt: null }
+      })
+
+    if (!major) return new UserError(404, "Major Not Found")
+
+    return {
+      _id: major._id,
+      courses: major.courses
+    }
+  } catch (e) {
+    return new UserError(404, "Major Not Found")
+  }
+
+}
+
 module.exports = {
   listMajors,
   createMajor,
   getMajor,
   updateMajor,
-  deleteMajor
+  deleteMajor,
+  getMarjorCourses,
 }

@@ -9,16 +9,15 @@ const createAdmin = async (body, reqUser) => {
       deletedAt: null
     })
     
-    const existsCode = await Admin.findOne({
-      code: body.code,
-      deletedAt: null,
-    })
+    const stt = await Admin.find({ deletedAt: null }).count()
+    const code = 'AD' + (stt + 1)
 
-    if (existsEmail || existsCode)
+    if (existsEmail)
       return new UserError(401, "Admin Already Exists")
 
     const admin = await Admin.create({
-      ...omit(body, ['password']),
+      ...omit(body, ['password', 'code']),
+      code,
       password: 'abcd1234',
       createdBy: reqUser._id
     })
