@@ -205,7 +205,7 @@
       addSuccessNotification() {
         this.$toast.success("Login Successfully", {
           position: this.position,
-          timeout: 6000,
+          timeout: 3000,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
