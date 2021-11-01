@@ -145,17 +145,18 @@
     name: 'Login',
     data() {
       return {
+        position: 'top-center',
         email: '',
         emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /.+@.+/.test(v) || 'E-mail must be valid',
+          v => !!v || 'Email is required',
+          v => /.+@.+/.test(v) || 'Email must be valid',
         ],
         emailAdmin: '',
         passwordAdmin: '',
         password: '',
         passRules: [
           v => !!v || 'Password is required',
-          v => v.length >= 6 || 'Min 6 characters'
+          v => v.length >= 3 || 'Min 3 characters'
         ]
       }
     },
@@ -174,18 +175,47 @@
           email: this.emailAdmin,
           password: this.passwordAdmin
         })
-        .then(
-          function(res) {
+        .then(function(res) {
             window.localStorage.setItem('token', res.data.token);
+            this.addSuccessNotification()
             this.$router.push('/dashboard');
           }.bind(this)
         )
         .catch(e => {
           const { error } = e.response.data
-          if (error === '')
-            window.alert(error)
+          this.addErrorNotification(error)
+          this.emailAdmin = ''
+          this.passwordAdmin = ''
         })
-      }
+      },
+      addErrorNotification(msg) {
+        this.$toast.error(msg, {
+          position: this.position,
+          timeout: 3000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
+          icon: true
+        });
+      },
+      addSuccessNotification() {
+        this.$toast.success("Login Successfully", {
+          position: this.position,
+          timeout: 6000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: true,
+          closeButton: "button",
+          icon: true
+        });
+      },
     },
     created() {
       if (window.localStorage.getItem('token')) {

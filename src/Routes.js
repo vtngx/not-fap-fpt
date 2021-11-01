@@ -14,6 +14,9 @@ import Layout from '@/components/Layout/Layout'
 import Error from "@/pages/Error/Error"
 import Login from "@/pages/Login/Login"
 import Majors from '@/pages/Majors/Majors'
+import Courses from '@/pages/Courses/Courses'
+import AddMajor from '@/pages/Majors/AddMajor'
+import EditMajor from '@/pages/Majors/EditMajor'
 import Dashboard from '@/pages/Dashboard/Dashboard'
 import Employees from '@/pages/Employees/Employees'
 
@@ -44,6 +47,21 @@ const router = new Router({
           path: 'majors',
           name: 'Majors',
           component: Majors,
+        },
+        {
+          path: 'courses',
+          name: 'Courses',
+          component: Courses,
+        },
+        {
+          path: 'majors/edit',
+          name: 'EditMajor',
+          component: EditMajor,
+        },
+        {
+          path: 'majors/add',
+          name: 'AddMajor',
+          component: AddMajor,
         },
         {
           path: 'dashboard',

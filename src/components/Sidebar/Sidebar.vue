@@ -110,7 +110,7 @@ import {mapActions, mapState} from 'vuex'
           { title: 'Employees', icon: 'mdi-account-multiple', link: '/employees' },
           { title: 'Students', icon: 'mdi-account-check', link: '/dashboard' },
           { title: 'Majors', icon: 'mdi-star', link: '/majors' },
-          { title: 'Courses', icon: 'mdi-book-variant', link: '/dashboard' },
+          { title: 'Courses', icon: 'mdi-book-variant', link: '/courses' },
           {
             title: 'Classes',
             icon: 'mdi-border-all',
@@ -122,7 +122,7 @@ import {mapActions, mapState} from 'vuex'
               { title: 'Maps', icon: 'mdi-circle-small', link: '/maps'},
             ],
           },
-          { title: 'News', icon: 'mdi-email', link: '/dashboard' },
+          // { title: 'News', icon: 'mdi-email', link: '/dashboard' },
           { title: 'Requests', icon: 'mdi-bell', link: '/dashboard' },
 
           // { title: 'Typography', icon: 'mdi-format-size', link: '/typography' },

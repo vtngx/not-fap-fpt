@@ -146,7 +146,7 @@ import {mapActions, mapState} from 'vuex'
     methods: {
       ...mapActions([ 'TOGGLE_DRAWER' ]),
       logOut: function () {
-        window.localStorage.setItem('authenticated', false);
+        window.localStorage.removeItem('token');
         this.$router.push('/login');
       }
     }
