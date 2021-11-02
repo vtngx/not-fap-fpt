@@ -58,7 +58,9 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        Tạo nhân viên
+                        <v-icon size="25" color="white">
+                          mdi-plus
+                        </v-icon>
                       </v-btn>
                     </template>
 
