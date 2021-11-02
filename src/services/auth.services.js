@@ -6,7 +6,9 @@ const loginStudent = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
-    const student = await Student.findOne({ email }).select('+password')
+    const student = await Student
+      .findOne({ email, deletedAt: null })
+      .select('+password')
 
     if (!student)
       return new UserError(400, "Invalid Credentials")
@@ -23,7 +25,9 @@ const loginAdmin = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
-    const admin = await Admin.findOne({ email }).select('+password')
+    const admin = await Admin
+      .findOne({ email, deletedAt: null })
+      .select('+password')
 
     if (!admin)
       return new UserError(400, "Invalid Credentials")

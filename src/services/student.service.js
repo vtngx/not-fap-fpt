@@ -1,4 +1,5 @@
 const { omit, orderBy } = require('lodash')
+const Major = require('../models/Major')
 const Student = require('../models/Student')
 const UserError = require('../utils/userError')
 
@@ -12,10 +13,13 @@ const getStudents = async (query) => {
 
     const students = await Student
       .find({ deletedAt: null })
+      .populate('major', 'name code')
+      .populate('coursesPassed', 'code name credits')
+      .populate('coursesFailed', 'code name credits')
       .skip(skip)
       .limit(limit)
 
-    return orderBy(students, ['email'], [sort])
+    return orderBy(students, ['roleNum'], [sort])
   } catch (e) {
     return new UserError
   }
@@ -23,10 +27,14 @@ const getStudents = async (query) => {
 
 const getStudent = async (_id) => {
   try {
-    const student = await Student.findOne({
-      _id,
-      deletedAt: null
-    })
+    const student = await Student
+      .findOne({
+        _id,
+        deletedAt: null
+      })
+      .populate('major', 'name code')
+      .populate('coursesPassed', 'code name credits')
+      .populate('coursesFailed', 'code name credits')
 
     return student
       ? student
@@ -38,14 +46,24 @@ const getStudent = async (_id) => {
 
 const createStudent = async (body, reqUser) => {
   try {
-    const exists = await Student.findOne({
-      email: body.email,
-      deletedAt: null
-    })
+    if (!body.major)
+      return new UserError(400, "Major Cannot Be Blank")
+
+    const [exists, major] = await Promise.all([
+      Student.findOne({
+        email: body.email,
+        deletedAt: null
+      }),
+      Major.findOne({
+        _id: body.major,
+        deletedAt: null,
+      })
+    ])
 
     if (exists) return new UserError(401, "Student Already Exists")
 
-    const { roleNum, name } = body
+    const { name } = body
+    const roleNum = major.code + String(await Student.find({ deletedAt: null, major: body.major }).count() + 1)
 
     let i = 0
     const code = (name
@@ -55,13 +73,16 @@ const createStudent = async (body, reqUser) => {
         if (i !== 0) b = b.charAt(0)
         i += 1
         return (a + b)
-      }) + roleNum)
+      }, '') + roleNum)
       .toLowerCase()
+    const email = `${code}@edu.vn`
 
     const student = await Student.create({
-      ...omit(body, ['password']),
+      ...omit(body, ['password', 'roleNum', 'code', 'email']),
+      roleNum,
       code,
-      password: 'abcd1234',
+      email,
+      password: 'asd123',
       createdBy: reqUser._id
     })
 
@@ -81,31 +102,8 @@ const updateStudent = async (_id, body, reqUser) => {
     if (!student)
       return new UserError(404, 'Student Not Found')
 
-    if (body.email !== student.email) {
-      const exists = await Student.findOne({
-        email: body.email,
-        deletedAt: null
-      })
-
-      if (exists) return new UserError(401, "Student Already Exists")
-    }
-
-    const { roleNum, name } = body
-
-    let i = 0
-    const code = (name
-      .split(' ')
-      .reverse()
-      .reduce((a, b) => {
-        if (i !== 0) b = b.charAt(0)
-        i += 1
-        return (a + b)
-      }) + roleNum)
-      .toLowerCase()
-
     student.set({
-      ...omit(body, ['password']),
-      code,
+      ...omit(body, ['password', 'code', 'email', 'roleNum', 'major']),
       updatedAt: Date.now(),
       updatedBy: reqUser._id
     })
