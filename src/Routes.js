@@ -17,8 +17,11 @@ import Majors from '@/pages/Majors/Majors'
 import Courses from '@/pages/Courses/Courses'
 import AddMajor from '@/pages/Majors/AddMajor'
 import EditMajor from '@/pages/Majors/EditMajor'
+import Students from '@/pages/Students/Students'
 import Dashboard from '@/pages/Dashboard/Dashboard'
 import Employees from '@/pages/Employees/Employees'
+import AddStudent from '@/pages/Students/AddStudent'
+import EditStudent from '@/pages/Students/EditStudent'
 
 import verifyToken from './utils/checkTokenExp';
 
@@ -44,14 +47,14 @@ const router = new Router({
           component: Employees,
         },
         {
-          path: 'majors',
-          name: 'Majors',
-          component: Majors,
-        },
-        {
           path: 'courses',
           name: 'Courses',
           component: Courses,
+        },
+        {
+          path: 'majors',
+          name: 'Majors',
+          component: Majors,
         },
         {
           path: 'majors/edit',
@@ -62,6 +65,21 @@ const router = new Router({
           path: 'majors/add',
           name: 'AddMajor',
           component: AddMajor,
+        },
+        {
+          path: 'students',
+          name: 'Students',
+          component: Students,
+        },
+        {
+          path: 'students/edit',
+          name: 'EditStudent',
+          component: EditStudent,
+        },
+        {
+          path: 'students/add',
+          name: 'AddStudent',
+          component: AddStudent,
         },
         {
           path: 'dashboard',

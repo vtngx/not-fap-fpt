@@ -108,7 +108,7 @@ import {mapActions, mapState} from 'vuex'
         items: [
           { title: 'Dashboard', icon: 'mdi-home', link: '/dashboard' },
           { title: 'Employees', icon: 'mdi-account-multiple', link: '/employees' },
-          { title: 'Students', icon: 'mdi-account-check', link: '/dashboard' },
+          { title: 'Students', icon: 'mdi-account-check', link: '/students' },
           { title: 'Majors', icon: 'mdi-star', link: '/majors' },
           { title: 'Courses', icon: 'mdi-book-variant', link: '/courses' },
           {
