@@ -9,11 +9,11 @@ const loginStudent = async (req, res, next) => {
     const student = await Student.findOne({ email }).select('+password')
 
     if (!student)
-      return new UserError(401, "Invalid Credentials")
+      return new UserError(400, "Invalid Credentials")
 
     return !!await student.matchPassword(password)
       ? student
-      : new UserError(401, "Invalid Credentials")
+      : new UserError(400, "Invalid Credentials")
   } catch (err) {
     return new UserError
   }
@@ -26,11 +26,11 @@ const loginAdmin = async (req, res, next) => {
     const admin = await Admin.findOne({ email }).select('+password')
 
     if (!admin)
-      return new UserError(401, "Invalid Credentials")
+      return new UserError(400, "Invalid Credentials")
 
     return !!await admin.matchPassword(password)
       ? admin
-      : new UserError(401, "Invalid Credentials")
+      : new UserError(400, "Invalid Credentials")
   } catch (err) {
     return new UserError
   }
