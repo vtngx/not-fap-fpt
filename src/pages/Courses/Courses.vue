@@ -207,7 +207,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import {authHeader} from '../../utils/authHeader'
 
 export default {
   name: 'Courses',

@@ -23,6 +23,7 @@
                       :error-messages="errors"
                       label="Code"
                       required
+                      disabled
                     ></v-text-field>
                   </validation-provider>
                   <validation-provider
@@ -62,6 +63,7 @@
                       :error-messages="errors"
                       label="Total Credits"
                       required
+                      disabled
                     ></v-text-field>
                   </validation-provider>
                   <validation-provider
@@ -195,7 +197,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import {authHeader} from '../../utils/authHeader'
 import { required, max, min, integer } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 

@@ -51,21 +51,6 @@
                   </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
-                    name="credits"
-                    :rules="{
-                      required: true,
-                      integer: 7,
-                    }"
-                  >
-                    <v-text-field
-                      v-model="credits"
-                      :error-messages="errors"
-                      label="Total Credits"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                  <validation-provider
-                    v-slot="{ errors }"
                     name="select"
                     rules="required"
                   >
@@ -195,7 +180,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import {authHeader} from '../../utils/authHeader'
 import { required, max, min, integer } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 

@@ -46,8 +46,6 @@
                     color="primary"
                     dark
                     class="mb-2"
-                    v-bind="attrs"
-                    v-on="on"
                     href="/majors/add"
                   >
                     <v-icon size="25" color="white">
@@ -86,7 +84,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import { authHeader } from '../../utils/authHeader'
 
 export default {
   name: 'Majors',

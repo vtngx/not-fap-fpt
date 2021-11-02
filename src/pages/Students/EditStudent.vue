@@ -195,7 +195,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import { authHeader } from '../../utils/authHeader'
 import { required, max, min, integer } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 

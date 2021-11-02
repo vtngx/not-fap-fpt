@@ -1,5 +1,5 @@
-const authHeader = () => {
-    let token = localStorage.getItem('token')
+export const authHeader = () => {
+    let token = localStorage.getItem('token-a')
 
     if (token)
         return { 'Authorization': 'Bearer ' + token }
@@ -7,4 +7,11 @@ const authHeader = () => {
         return {}
 }
 
-export default authHeader
+export const authHeaderStu = () => {
+    let token = localStorage.getItem('token-s')
+
+    if (token)
+        return { 'Authorization': 'Bearer ' + token }
+    else
+        return {}
+}

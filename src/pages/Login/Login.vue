@@ -166,9 +166,22 @@
         return field
       },
       login() {
-        window.alert(`${this.email} : ${this.password}`)
-        // window.localStorage.setItem('authenticated', true);
-        // this.$router.push('/dashboard');
+        axios.post('https://not-fap-be.herokuapp.com/api/auth/login-stu', {
+          email: this.email,
+          password: this.password
+        })
+        .then(function(res) {
+            window.localStorage.setItem('token-s', res.data.token);
+            this.addSuccessNotification()
+            this.$router.push('/s/home');
+          }.bind(this)
+        )
+        .catch(e => {
+          const { error } = e.response.data
+          this.addErrorNotification(error)
+          this.email = ''
+          this.password = ''
+        })
       },
       loginAdmin() {
         axios.post('https://not-fap-be.herokuapp.com/api/auth/login-ad', {
@@ -176,7 +189,7 @@
           password: this.passwordAdmin
         })
         .then(function(res) {
-            window.localStorage.setItem('token', res.data.token);
+            window.localStorage.setItem('token-a', res.data.token);
             this.addSuccessNotification()
             this.$router.push('/dashboard');
           }.bind(this)
@@ -218,9 +231,10 @@
       },
     },
     created() {
-      if (window.localStorage.getItem('token')) {
+      if (window.localStorage.getItem('token-a'))
         this.$router.push('/dashboard');
-      }
+      else if (window.localStorage.getItem('token-s'))
+        this.$router.push('/s/home');
     }
   }
 

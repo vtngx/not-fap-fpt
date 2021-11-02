@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Layout from '@/components/Layout/Layout'
+import LayoutStudent from '@/components/LayoutStudent/Layout'
 
 // Pages
 // import Maps from '@/pages/Maps/Google'
@@ -22,6 +23,9 @@ import Dashboard from '@/pages/Dashboard/Dashboard'
 import Employees from '@/pages/Employees/Employees'
 import AddStudent from '@/pages/Students/AddStudent'
 import EditStudent from '@/pages/Students/EditStudent'
+import StudentMajors from '@/pages/StudentMajors/Majors'
+import StudentHome from '@/pages/StudentHome/StudentHome'
+import StudentCourses from '@/pages/StudentCourses/Courses'
 
 import verifyToken from './utils/checkTokenExp';
 
@@ -116,19 +120,36 @@ const router = new Router({
         //   name: 'Maps',
         //   component: Maps
         // },
-        {
-          path: '404',
-          name: 'Error',
-          meta: {
-            nf: true
-          },
-          component: Error
-        },
       ],
     },
     {
+      path: '/s',
+      redirect: '/s/home',
+      name: 'LayoutStudent',
+      component: LayoutStudent,
+      children: [
+        {
+          path: 'home',
+          name: 'StudentHome',
+          component: StudentHome,
+        },
+        {
+          path: 'uni-majors',
+          name: 'StudentMajors',
+          component: StudentMajors,
+        },
+        {
+          path: 'uni-courses',
+          name: 'StudentCourses',
+          component: StudentCourses,
+        },
+      ]
+    },
+    {
       path: '*',
-      redirect: '/404'
+      meta: { nf: true },
+      name: 'Error',
+      component: Error
     }
   ],
 });
@@ -137,16 +158,29 @@ router.beforeEach(({meta, path}, from, next) => {
   const { nf } = meta
 
   const publicPages = ['/login']
-  const authRequired = !publicPages.includes(path)
-  const token = localStorage.getItem('token')
-  
-  const isTokenValid = verifyToken(token)
+  const studentPages = ['/s', '/s/home', '/s/uni-majors', '/s/uni-courses']
 
-  if (!isTokenValid && token)
-    localStorage.removeItem('token')
-    
-  if (authRequired && !isTokenValid && !nf)
-    return next('/login')
+  const authRequired = !publicPages.includes(path)
+  const tokenAd = localStorage.getItem('token-a')
+  const tokenStu = localStorage.getItem('token-s')
+  
+  if (studentPages.includes(path)) {
+    const isTokenStuValid = verifyToken(tokenStu)
+  
+    if (!isTokenStuValid && tokenStu)
+      localStorage.removeItem('token-s')
+      
+    if (authRequired && !isTokenStuValid && !nf)
+      return next('/login')
+  } else {
+    const isTokenAdValid = verifyToken(tokenAd)
+  
+    if (!isTokenAdValid && tokenAd)
+      localStorage.removeItem('token-a')
+      
+    if (authRequired && !isTokenAdValid && !nf)
+      return next('/login')
+  }
 
   next()
 })

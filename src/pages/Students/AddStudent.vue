@@ -3,28 +3,16 @@
   <!-- eslint-disable -->
   <v-container fluid>
     <div class="tables-basic">
-      <h1 class="page-title mt-10 mb-6">Tạo ngành học mới</h1>
+      <h1 class="page-title mt-10 mb-6">Tạo sinh viên mới</h1>
       <v-row>
         <v-col cols="12">
-          <v-card class="major-list mb-1 px-15 py-10">
-            <div class="mb-15">
+          <v-card class="student-list mb-1 px-15 py-10">
+            <div class="mb-10">
               <validation-observer
                 ref="observer"
                 v-slot="{ invalid }"
               >
                 <form @submit.prevent="submit">
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="Code"
-                    rules="required|min:2"
-                  >
-                    <v-text-field
-                      v-model="code"
-                      :error-messages="errors"
-                      label="Code"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
                     name="Name"
@@ -39,150 +27,61 @@
                   </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
-                    name="Description"
-                    rules="min:2|max:200"
-                  >
-                    <v-text-field
-                      v-model="description"
-                      :error-messages="errors"
-                      label="Description"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="credits"
+                    name="Phone"
                     :rules="{
                       required: true,
-                      integer: 7,
+                      digits: 10,
+                      regex: /^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
                     }"
                   >
                     <v-text-field
-                      v-model="credits"
+                      v-model="phone"
                       :error-messages="errors"
-                      label="Total Credits"
+                      label="Phone"
                       required
                     ></v-text-field>
                   </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
-                    name="select"
+                    name="Address"
+                    rules="required|max:200"
+                  >
+                    <v-text-field
+                      v-model="address"
+                      :error-messages="errors"
+                      label="Address"
+                      required
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="Major"
                     rules="required"
                   >
                     <v-select
-                      v-model="status"
-                      :items="items"
+                      v-model="major"
+                      :items="allMajorItems"
                       :error-messages="errors"
-                      label="Status"
-                      data-vv-name="select"
-                      value="ACTIVE"
+                      label="Major"
+                      data-vv-name="major"
                       required
                     ></v-select>
                   </validation-provider>
 
-                  <v-data-table
-                    :headers="headers"
-                    :items="courses"
-                    sort-by="code"
-                    class="elevation-1 px-5 my-10"
-                    :loading="loading_table"
-                  >
-                    <template v-slot:top>
-                      <v-toolbar flat>
-                        <v-toolbar-title>Các môn học</v-toolbar-title>
-                        
-                        <v-spacer></v-spacer>
-
-                        <v-dialog v-model="dialog" max-width="500px">
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              color="primary"
-                              dark
-                              class="mb-2"
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              Thêm môn học
-                            </v-btn>
-                          </template>
-
-                          <v-card>
-                            <v-card-title>
-                              <span class="text-h5">{{ formTitle }}</span>
-                            </v-card-title>
-                
-                            <v-card-text>
-                              <v-container>
-                                  <v-data-table
-                                    :headers="allCoursesHeaders"
-                                    :items="allCourses"
-                                    sort-by="code"
-                                    class="elevation-1 px-5"
-                                    :loading="loading_table"
-                                  >
-                                    <template v-slot:item.actions="{ item }" class="d-flex justify-center">
-                                      <v-icon
-                                        class="mr-2 justify-center"
-                                        @click="addItem(item)"
-                                        color="green"
-                                      >
-                                        mdi-plus
-                                      </v-icon>
-                                    </template>
-                                  </v-data-table>
-                              </v-container>
-                            </v-card-text>
-                
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn
-                                color="blue darken-1"
-                                text
-                                @click="close"
-                              >
-                                Hủy
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-
-                        <v-dialog v-model="dialogDelete" max-width="300px">
-                          <v-card>
-                            <v-card-title class="text-h5 justify-center">Xóa môn học này?</v-card-title>
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn color="blue darken-1" text @click="closeDelete">Hủy</v-btn>
-                              <v-btn color="blue darken-1" text @click="deleteItemConfirm">Xóa</v-btn>
-                              <v-spacer></v-spacer>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-                      </v-toolbar>
-                    </template>
-
-                    <template v-slot:item.actions="{ item }" class="d-flex justify-center">
-                      <v-icon
-                        class="mr-2 justify-center"
-                        @click="deleteItem(item)"
-                        color="red"
-                      >
-                        mdi-close
-                      </v-icon>
-                    </template>
-                  </v-data-table>
-
-                  <v-btn 
-                    class="mr-4"
-                    @click="cancel"
-                  >
-                    hủy
-                  </v-btn>
-                  <v-btn
-                    type="submit"
-                    :disabled="invalid"
-                  >
-                    lưu
-                  </v-btn>
+                  <div class="mt-10">
+                    <v-btn 
+                      class="mr-4"
+                      @click="cancel"
+                    >
+                      hủy
+                    </v-btn>
+                    <v-btn
+                      type="submit"
+                      :disabled="invalid"
+                    >
+                      lưu
+                    </v-btn>
+                  </div>
                 </form>
               </validation-observer>
             </div>
@@ -195,15 +94,20 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
-import { required, max, min, integer } from 'vee-validate/dist/rules'
+import {authHeader} from '../../utils/authHeader'
+import { required, max, min, digits, regex } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
 
-extend('integer', {
-  ...integer,
-  message: '{_field_} needs to be integer.',
+extend('digits', {
+  ...digits,
+  message: '{_field_} needs to be {length} digits.',
+})
+
+extend('regex', {
+  ...regex,
+  message: '{_field_} must be Vietnamese phone format',
 })
 
 extend('required', {
@@ -231,16 +135,12 @@ export default {
 
   data() {
     return {
-      code: '',
       name: '',
-      credits: '',
-      description: '',
-      items: [
-        'ACTIVE',
-        'INACTIVE',
-      ],
-      status: '',
-      loading_table: true,
+      phone: '',
+      address: '',
+      allMajors: [],
+      allMajorItems: [],
+      major: '',
       headers: [
         { text: 'Code', align: 'start', value: 'code' },
         { text: 'Name', value: 'name' },
@@ -256,46 +156,8 @@ export default {
         { text: 'Name', value: 'name' },
         { text: 'Add', value: 'actions', sortable: false },
       ],
-      dialog: false,
-      dialogDelete: false,
-      courses: [],
-      allCourses: [],
-      editedIndex: -1,
-      editedItem: {
-        code: '',
-        name: '',
-        description: '',
-        credits: 0,
-        minMarkToPass: 5,
-        price: 0,
-        slotsPerWeek: 0,
-        slotsTotal: 0,
-        status: '',
-        courses: []
-      },
-      defaultItem: {
-        code: '',
-        name: '',
-        description: '',
-        credits: 0,
-        minMarkToPass: 5,
-        price: 0,
-        slotsPerWeek: 0,
-        slotsTotal: 0,
-        status: 'ACTIVE',
-        courses: []
-      },
       authorizationHeader: {},
     }
-  },
-
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-    dialogDelete (val) {
-      val || this.closeDelete()
-    },
   },
 
   created () {
@@ -311,21 +173,20 @@ export default {
   methods: {
     submit () {
       this.$refs.observer.validate()
+      const majorId = this.allMajors.find(m => m.slug === this.major)._id
       axios
         .post(
-          `https://not-fap-be.herokuapp.com/api/major`,
+          `https://not-fap-be.herokuapp.com/api/student`,
           {
-            code: this.code,
             name: this.name,
-            description: this.description,
-            credits: this.credits,
-            status: this.status,
-            courses: this.courses
+            phone: this.phone,
+            address: this.address,
+            major: majorId
           },
           { headers: this.authorizationHeader }
         )
         .then(() => {
-          this.$router.push('/majors')
+          this.$router.push('/students')
         })
         .catch(err => {
           window.alert(err.response.data.error)
@@ -336,59 +197,26 @@ export default {
 
     cancel () {
       this.$refs.observer.reset()
-      this.$router.push(`/majors`)
+      this.$router.push(`/students`)
     },
 
     initialize () {
-      this.loading_table = true
       this.authorizationHeader = authHeader()
       axios
-        .get(`https://not-fap-be.herokuapp.com/api/course`, { headers: this.authorizationHeader })
+        .get(`https://not-fap-be.herokuapp.com/api/major`, { headers: this.authorizationHeader })
         .then(res => {
-          this.loading_table = false
-          this.allCourses = res.data.data
+          this.allMajors = res.data.data.map(m => {
+            return {
+              ...m,
+              slug: `${m.code} (${m.name})`
+            }
+          })
+          this.allMajorItems = res.data.data.map(m => `${m.code} (${m.name})`)
         })
         .catch(err => {
           window.alert(err.response.data.error)
           this.$router.push('/login')      
         })
-    },
-
-    deleteItem (item) {
-      this.editedIndex = this.courses.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
-    },
-
-    addItem (item) {
-      const newCourse = Object.assign({}, item)
-      if (!this.courses.map(ele => ele._id).includes(item._id)) {
-        this.courses.push(newCourse)
-        this.dialog = false
-      } else {
-        window.alert(`${item.code} đã có trong danh sách môn học`)
-      }
-    },
-
-    deleteItemConfirm () {
-      this.courses = this.courses.filter(ele => String(ele._id) != String(this.editedItem._id))
-      this.closeDelete()
-    },
-
-    close () {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    closeDelete () {
-      this.dialogDelete = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
     },
   },
 }

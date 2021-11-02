@@ -13,7 +13,8 @@
             <v-data-table
               :headers="headers"
               :items="students"
-              sort-by="code"
+              sort-by="roleNum"
+              :sort-desc="true"
               class="elevation-1 px-5"
               :loading="loading_table"
             >
@@ -23,14 +24,19 @@
                     mdi-check
                   </v-icon>
                 </span>
-                <span v-else-if="item.status === 'STUDYING'">
-                  <v-icon size="25" color="green">
-                    mdi-check
+                <span v-else-if="item.status === 'PRESERVED'">
+                  <v-icon size="25" color="yellow">
+                    mdi-backup-restore
                   </v-icon>
                 </span>
-                <span v-else>
+                <span v-else-if="item.status === 'DROPPED'">
                   <v-icon size="25" color="red">
                     mdi-close
+                  </v-icon>
+                </span>
+                <span v-else-if="item.status === 'GRADUATED'">
+                  <v-icon size="25" color="blue">
+                    mdi-check-all
                   </v-icon>
                 </span>
               </template>
@@ -38,7 +44,7 @@
                 <v-toolbar
                   flat
                 >
-                  <v-toolbar-title>Danh sách ngành học</v-toolbar-title>
+                  <v-toolbar-title>Danh sách sinh viên</v-toolbar-title>
                   <v-divider
                     class="mx-4"
                     inset
@@ -89,7 +95,7 @@
 
 <script>
 import axios from 'axios'
-import authHeader from '../../utils/authHeader'
+import { authHeader } from '../../utils/authHeader'
 
 export default {
   name: 'students',
