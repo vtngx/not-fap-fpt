@@ -15,14 +15,41 @@
                 <form @submit.prevent="submit">
                   <validation-provider
                     v-slot="{ errors }"
-                    name="Code"
-                    rules="required|min:2"
+                    name="Major"
+                    rules="required"
                   >
                     <v-text-field
-                      v-model="code"
+                      v-model="major"
                       :error-messages="errors"
-                      label="Code"
+                      label="Major"
                       required
+                      disabled
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="Role Number"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="roleNum"
+                      :error-messages="errors"
+                      label="Role Number"
+                      required
+                      disabled
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="Email"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="email"
+                      :error-messages="errors"
+                      label="Email"
+                      required
+                      disabled
                     ></v-text-field>
                   </validation-provider>
                   <validation-provider
@@ -39,150 +66,63 @@
                   </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
-                    name="Description"
-                    rules="min:2|max:200"
-                  >
-                    <v-text-field
-                      v-model="description"
-                      :error-messages="errors"
-                      label="Description"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="credits"
+                    name="Phone"
                     :rules="{
                       required: true,
-                      integer: 7,
+                      digits: 10,
+                      regex: /^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
                     }"
                   >
                     <v-text-field
-                      v-model="credits"
+                      v-model="phone"
                       :error-messages="errors"
-                      label="Total Credits"
+                      label="Phone"
+                      required
+                      pattern="^(0)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$"
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="Address"
+                    rules="required|max:200"
+                  >
+                    <v-text-field
+                      v-model="address"
+                      :error-messages="errors"
+                      label="Address"
                       required
                     ></v-text-field>
                   </validation-provider>
                   <validation-provider
                     v-slot="{ errors }"
-                    name="select"
+                    name="Status"
                     rules="required"
                   >
                     <v-select
                       v-model="status"
-                      :items="items"
                       :error-messages="errors"
                       label="Status"
-                      data-vv-name="select"
-                      value="ACTIVE"
+                      data-vv-name="status"
+                      :items="statusItems"
+                      :value="status"
                       required
                     ></v-select>
                   </validation-provider>
 
-                  <v-data-table
-                    :headers="headers"
-                    :items="courses"
-                    sort-by="code"
-                    class="elevation-1 px-5 my-10"
-                    :loading="loading_table"
-                  >
-                    <template v-slot:top>
-                      <v-toolbar flat>
-                        <v-toolbar-title>Các môn học</v-toolbar-title>
-                        
-                        <v-spacer></v-spacer>
-
-                        <v-dialog v-model="dialog" max-width="500px">
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                              color="primary"
-                              dark
-                              class="mb-2"
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              Thêm môn học
-                            </v-btn>
-                          </template>
-
-                          <v-card>
-                            <v-card-title>
-                              <span class="text-h5">{{ formTitle }}</span>
-                            </v-card-title>
-                
-                            <v-card-text>
-                              <v-container>
-                                  <v-data-table
-                                    :headers="allCoursesHeaders"
-                                    :items="allCourses"
-                                    sort-by="code"
-                                    class="elevation-1 px-5"
-                                    :loading="loading_table"
-                                  >
-                                    <template v-slot:item.actions="{ item }" class="d-flex justify-center">
-                                      <v-icon
-                                        class="mr-2 justify-center"
-                                        @click="addItem(item)"
-                                        color="green"
-                                      >
-                                        mdi-plus
-                                      </v-icon>
-                                    </template>
-                                  </v-data-table>
-                              </v-container>
-                            </v-card-text>
-                
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn
-                                color="blue darken-1"
-                                text
-                                @click="close"
-                              >
-                                Hủy
-                              </v-btn>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-
-                        <v-dialog v-model="dialogDelete" max-width="300px">
-                          <v-card>
-                            <v-card-title class="text-h5 justify-center">Xóa môn học này?</v-card-title>
-                            <v-card-actions>
-                              <v-spacer></v-spacer>
-                              <v-btn color="blue darken-1" text @click="closeDelete">Hủy</v-btn>
-                              <v-btn color="blue darken-1" text @click="deleteItemConfirm">Xóa</v-btn>
-                              <v-spacer></v-spacer>
-                            </v-card-actions>
-                          </v-card>
-                        </v-dialog>
-                      </v-toolbar>
-                    </template>
-
-                    <template v-slot:item.actions="{ item }" class="d-flex justify-center">
-                      <v-icon
-                        class="mr-2 justify-center"
-                        @click="deleteItem(item)"
-                        color="red"
-                      >
-                        mdi-close
-                      </v-icon>
-                    </template>
-                  </v-data-table>
-
-                  <v-btn 
-                    class="mr-4"
-                    @click="cancel"
-                  >
-                    hủy
-                  </v-btn>
-                  <v-btn
-                    type="submit"
-                    :disabled="invalid"
-                  >
-                    lưu
-                  </v-btn>
+                  <div class="mt-10">
+                    <v-btn 
+                      class="mr-4"
+                      @click="cancel"
+                    >
+                      hủy
+                    </v-btn>
+                    <v-btn
+                      type="submit"
+                      :disabled="invalid"
+                    >
+                      lưu
+                    </v-btn>
+                  </div>
                 </form>
               </validation-observer>
             </div>
@@ -196,10 +136,20 @@
 <script>
 import axios from 'axios'
 import { authHeader } from '../../utils/authHeader'
-import { required, max, min, integer } from 'vee-validate/dist/rules'
+import { required, max, min, integer, digits, regex } from 'vee-validate/dist/rules'
 import { extend, ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
+
+extend('digits', {
+  ...digits,
+  message: '{_field_} needs to be {length} digits.',
+})
+
+extend('regex', {
+  ...regex,
+  message: '{_field_} must be Vietnamese phone format',
+})
 
 extend('integer', {
   ...integer,
@@ -231,86 +181,25 @@ export default {
 
   data() {
     return {
-      majorId: '',
       code: '',
+      roleNum: '',
       name: '',
-      credits: '',
-      description: '',
-      items: [
-        'ACTIVE',
-        'INACTIVE',
-      ],
+      email: '',
+      phone: '',
+      address: '',
+      major: '',
       status: '',
-      checkbox: null,
-
-      statusCols: 6,
+      studentId: '',
+      statusItems: [
+        'STUDYING',
+        'GRADUATED',
+        'PRESERVED',
+        'DROPPED'
+      ],
       loading_table: true,
-      headers: [
-        { text: 'Code', align: 'start', value: 'code' },
-        { text: 'Name', value: 'name' },
-        { text: 'Credits', value: 'credits' },
-        { text: 'Min Mark', value: 'minMarkToPass' },
-        { text: 'Slots Total', value: 'slotsTotal' },
-        { text: 'Slots/Week', value: 'slotsPerWeek' },
-        { text: 'Price', value: 'price' },
-        { text: 'Details', value: 'actions', sortable: false },
-      ],
-      allCoursesHeaders: [
-        { text: 'Code', align: 'start', value: 'code' },
-        { text: 'Name', value: 'name' },
-        { text: 'Add', value: 'actions', sortable: false },
-      ],
-      dialog: false,
-      dialogDelete: false,
-      courses: [],
-      allCourses: [],
-      editedIndex: -1,
-      editedItem: {
-        _id: '',
-        code: '',
-        name: '',
-        description: '',
-        credits: 0,
-        minMarkToPass: 5,
-        price: 0,
-        slotsPerWeek: 0,
-        slotsTotal: 0,
-        status: '',
-        courses: []
-      },
-      defaultItem: {
-        _id: '',
-        code: '',
-        name: '',
-        description: '',
-        credits: 0,
-        minMarkToPass: 5,
-        price: 0,
-        slotsPerWeek: 0,
-        slotsTotal: 0,
-        status: 'ACTIVE',
-        courses: []
-      },
       authorizationHeader: {},
+      position: 'bottom-right',
     }
-  },
-
-  computed: {
-    formTitle () {
-      return this.editedIndex === -1 ? 'Môn học mới' : 'Sửa môn học'
-    },
-    setStatusCols() {
-      return this.editedIndex === -1 ? false : true
-    }
-  },
-
-  watch: {
-    dialog (val) {
-      val || this.close()
-    },
-    dialogDelete (val) {
-      val || this.closeDelete()
-    },
   },
 
   created () {
@@ -322,102 +211,79 @@ export default {
       this.$refs.observer.validate()
       axios
         .put(
-          `https://not-fap-be.herokuapp.com/api/major/${this.majorId}`,
+          `https://not-fap-be.herokuapp.com/api/student/${this.studentId}`,
           {
-            code: this.code,
             name: this.name,
-            description: this.description,
-            credits: this.credits,
+            phone: this.phone,
+            address: this.address,
             status: this.status,
-            courses: this.courses
           },
           { headers: this.authorizationHeader }
         )
         .then(() => {
-          this.courses = []
+          this.addSuccessNotification()
           this.initialize()
         })
         .catch(err => {
-          window.alert(err.response.data.error)
+          this.addErrorNotification(err.response.data.error)
           if (err.response.status === 401)
             this.$router.push('/login')      
         })
     },
-
     cancel () {
       this.$refs.observer.reset()
-      this.$router.push(`/majors`)
+      this.$router.push(`/students`)
     },
-
     initialize () {
-      this.majorId = this.$route.query.m
+      this.studentId = this.$route.query.m
       this.loading_table = true
       this.authorizationHeader = authHeader()
       axios
-        .get(`https://not-fap-be.herokuapp.com/api/major/${this.majorId}`, { headers: this.authorizationHeader })
+        .get(`https://not-fap-be.herokuapp.com/api/student/${this.studentId}`, { headers: this.authorizationHeader })
         .then(res => {
           this.loading_table = false
-          const major = res.data.data
-          this.courses = major.courses
-          this.code = major.code
-          this.name = major.name
-          this.description = major.description
-          this.credits = major.credits
-          this.status = major.status
-          axios
-            .get(`https://not-fap-be.herokuapp.com/api/course`, { headers: this.authorizationHeader })
-            .then(res => {
-              this.loading_table = false
-              this.allCourses = res.data.data
-            })
+          const student = res.data.data
+          this.code = student.code
+          this.roleNum = student.roleNum
+          this.name = student.name
+          this.email = student.email
+          this.phone = student.phone
+          this.address = student.address
+          this.status = student.status
+          this.major = `${student.major.code} (${student.major.name})`
         })
         .catch(err => {
           window.alert(err.response.data.error)
           this.$router.push('/login')      
         })
     },
-
-    editItem (item) {
-      this.editedIndex = this.courses.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialog = true
+    addErrorNotification(msg) {
+      this.$toast.error(msg, {
+        position: this.position,
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: "button",
+        icon: true
+      });
     },
-
-    deleteItem (item) {
-      this.editedIndex = this.courses.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogDelete = true
-    },
-
-    addItem (item) {
-      const newCourse = Object.assign({}, item)
-      if (!this.courses.map(ele => ele._id).includes(item._id)) {
-        this.courses.push(newCourse)
-        this.dialog = false
-      } else {
-        window.alert(`${item.code} đã có trong danh sách môn học`)
-      }
-    },
-
-    deleteItemConfirm () {
-      this.courses = this.courses.filter(ele => String(ele._id) != String(this.editedItem._id))
-      this.closeDelete()
-    },
-
-    close () {
-      this.dialog = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
-    },
-
-    closeDelete () {
-      this.dialogDelete = false
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
-        this.editedIndex = -1
-      })
+    addSuccessNotification() {
+      this.$toast.success("Update Student Successfully", {
+        position: this.position,
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        draggablePercent: 0.6,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: "button",
+        icon: true
+      });
     },
   },
 }
