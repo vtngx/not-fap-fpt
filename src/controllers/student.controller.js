@@ -46,10 +46,30 @@ const deleteStudent = async (req, res, next) => {
   return sendResponse(data, res)
 }
 
+const getMe = async (req, res, next) => {
+  const data = await studentService.getMe(req.user)
+  
+  if (data instanceof Error)
+    return next(data)
+
+  return sendResponse(data, res)
+}
+
+const getMyRequests = async (req, res, next) => {
+  const data = await studentService.getMyRequests(req.user)
+  
+  if (data instanceof Error)
+    return next(data)
+
+  return sendResponse(data, res)
+}
+
 module.exports = {
+  getMe,
   getStudents,
   getStudent,
   createStudent,
   updateStudent,
   deleteStudent,
+  getMyRequests,
 }

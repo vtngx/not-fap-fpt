@@ -1,6 +1,7 @@
-const { omit, orderBy } = require('lodash')
 const Major = require('../models/Major')
+const { omit, orderBy } = require('lodash')
 const Student = require('../models/Student')
+const Requests = require('../models/Requests')
 const UserError = require('../utils/userError')
 
 const getStudents = async (query) => {
@@ -141,10 +142,35 @@ const deleteStudent = async (_id, reqUser) => {
   }
 }
 
+const getMe = async (reqUser) => {
+  const me = await Student
+    .find({
+      deletedAt: null,
+      _id: reqUser._id,
+    })
+    .populate({ path: 'major', select: 'code name' })
+    .select('roleNum code name phone email address status major')
+
+  if (!me)
+    return new UserError(404, "Student Not Found")
+
+  return me
+}
+
+const getMyRequests = async (reqUser) => {
+  const requests = await Requests.find({
+    deletedAt: null,
+    createdBy: reqUser._id,
+  })
+  return requests || []
+}
+
 module.exports = {
+  getMe,
   getStudents,
   getStudent,
   createStudent,
   updateStudent,
   deleteStudent,
+  getMyRequests,
 }
