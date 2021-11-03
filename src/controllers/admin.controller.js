@@ -46,7 +46,17 @@ const deleteAdmin = async (req, res, next) => {
   return sendResponse(data, res)
 }
 
+const getMe = async (req, res, next) => {
+  const data = await adminService.getMe(req.user)
+  
+  if (data instanceof Error)
+    return next(data)
+
+  return sendResponse(data, res)
+}
+
 module.exports = {
+  getMe,
   createAdmin,
   getAdmins,
   getAdmin,

@@ -149,7 +149,7 @@ const getMe = async (reqUser) => {
       _id: reqUser._id,
     })
     .populate({ path: 'major', select: 'code name' })
-    .select('roleNum code name phone email address status major')
+    .select('roleNum code name phone email address status major createdAt')
 
   if (!me)
     return new UserError(404, "Student Not Found")

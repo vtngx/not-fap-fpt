@@ -1,5 +1,6 @@
 const express = require('express')
 const {
+  getMe,
   createAdmin,
   getAdmins,
   getAdmin,
@@ -16,6 +17,9 @@ router.use(requireAuth(UserType.ADMIN))
 router.route('/')
   .get(getAdmins)
   .post(createAdmin)
+
+  router.route('/me')
+    .get(getMe)
 
 router.route('/:id')
   .get(getAdmin)

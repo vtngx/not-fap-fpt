@@ -129,7 +129,22 @@ const deleteAdmin = async (_id, reqUser) => {
   }
 }
 
+const getMe = async (reqUser) => {
+  const me = await Admin
+    .findOne({
+      _id: reqUser._id,
+      deletedAt: null
+    })
+    .select('code name phone email address status createdAt')
+
+  if(!me)
+    return new UserError(404, "Admin Not Found")
+
+  return me
+}
+
 module.exports = {
+  getMe,
   createAdmin,
   getAdmins,
   getAdmin,
