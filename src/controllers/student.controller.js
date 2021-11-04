@@ -64,6 +64,15 @@ const getMyRequests = async (req, res, next) => {
   return sendResponse(data, res)
 }
 
+const getMyProgress = async (req, res, next) => {
+  const data = await studentService.getMyProgress(req.user)
+  
+  if (data instanceof Error)
+    return next(data)
+
+  return sendResponse(data, res)
+}
+
 module.exports = {
   getMe,
   getStudents,
@@ -72,4 +81,5 @@ module.exports = {
   updateStudent,
   deleteStudent,
   getMyRequests,
+  getMyProgress,
 }

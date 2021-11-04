@@ -67,8 +67,10 @@ const createStudent = async (body, reqUser) => {
     const roleNum = major.code + String(await Student.find({ deletedAt: null, major: body.major }).count() + 1)
 
     let i = 0
-    const code = (name
-      .split(' ')
+    const c = name.trim().split(' ').reverse()
+    c.push(c[0])
+    c.shift()
+    const code = (c
       .reverse()
       .reduce((a, b) => {
         if (i !== 0) b = b.charAt(0)
@@ -165,6 +167,29 @@ const getMyRequests = async (reqUser) => {
   return requests || []
 }
 
+const getMyProgress = async (reqUser) => {
+  const me = await Student
+    .findOne({
+      deletedAt: null,
+      _id: reqUser._id,
+    })
+    .populate({ path: 'major', select: 'code name courses' })
+
+  if (!me)
+    return new UserError(404, "Student Not Found")
+
+  return {
+    code: me.code,
+    name: me.name,
+    progress: me.major.courses.length
+      ? Math.round(me.coursesPassed.length / me.major.courses.length)
+      : 0,
+    total: me.major.courses.length,
+    passed: me.coursesPassed.length,
+    failed: me.coursesFailed.length
+  }
+}
+
 module.exports = {
   getMe,
   getStudents,
@@ -173,4 +198,5 @@ module.exports = {
   updateStudent,
   deleteStudent,
   getMyRequests,
+  getMyProgress,
 }
