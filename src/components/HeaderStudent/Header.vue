@@ -16,141 +16,47 @@
 
     <v-toolbar-title>NotFAP CMS</v-toolbar-title>
     <v-spacer></v-spacer>
-    <!-- <Search /> -->
 
-    <v-menu
-      offset-y
-      bottom
-      nudge-bottom="10"
-      left>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            @click="notificationsBadge ? notificationsBadge = !notificationsBadge : ''"
-            v-bind="attrs"
-            v-on="on"
-            style="font-size: 28px"
-            icon
-            class="mr-2">
-              <v-badge
-                :value="notificationsBadge"
-                color="error"
-                content="4"
-                overlap>
-                  <v-icon
-                    style="font-size: 28px"
-                    color="rgba(255, 255, 255, 0.35)">mdi-bell-outline</v-icon>
-              </v-badge>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item-group color="primary">
-            <v-list-item
-              v-for="(item, i) in notifications"
-              :key="i">
-                <v-list-item-icon class="mr-4 mb-1">
-                  <v-icon
-                    :color="item.color"
-                    v-text="item.icon">
-                  </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.text"></v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-    </v-menu>
-
-    <v-menu
-      min-width="180"
-      offset-y
-      bottom
-      left
-      nudge-bottom="10">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            class="mr-0"
-            icon
-            v-bind="attrs"
-            v-on="on">
-            <v-icon
-              style="font-size: 28px"
-              :color="config.light.iconColor">mdi-account</v-icon>
-            </v-btn>
-        </template>
-        <v-list >
-          <div class="text-h5 grey--text text--darken-3 px-4 pt-4">{{ name }}</div>
-          <div class="subtitle-2 primary--text font-weight-regular px-4">{{ email }}</div>
-          <v-list-item-group color="primary">
-            <v-list-item
-              v-for="(item, i) in account"
-              :key="i">
-                <v-list-item-icon class="mr-4">
-                  <v-icon
-                    :color="item.color"
-                    v-text="item.icon">
-                  </v-icon>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title :color='config.light.textColor' v-text="item.text"></v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-          <div class="d-flex justify-center my-3">
-            <v-btn
-              width="80%"
-              large
-              outlined
-              color="primary"
-              class="text-capitalize"
-              @click="logOut">Log out
-            </v-btn>
-          </div>
-        </v-list>
-    </v-menu>
+    <template>
+      <v-btn
+        width="6%"
+        max-height="35px"
+        color="secondary"
+        class="text-capitalize"
+        @click="logOut"
+      >Log out
+      </v-btn>
+    </template>
   </v-app-bar>
 </template>
 
 <script>
+import config from '../../config';
 import {mapActions, mapState} from 'vuex'
-  import config from '../../config';
-  // import Search from "@/components/Search/Search";
 
-  export default {
-    name: 'Header',
-    // components: { Search },
-    data: () => ({
-      config,
-      searchCollapse: true,
-      notifications: [
-        { text: 'Check out this awesome ticket', icon: 'mdi-tag', color: 'warning' },
-        { text: 'What is the best way to get ...', icon: 'mdi-thumb-up', color: 'success'  },
-        { text: 'This is just a simple notification', icon: 'mdi-flag', color: 'error'  },
-        { text: '12 new orders has arrived today', icon: 'mdi-cart', color: 'primary'  },
-      ],
-      account: [
-        { text: 'Profile', icon: 'mdi-account', color: 'textColor' },
-      ],
-      notificationsBadge: true,
-      name: '',
-      email: '',
-    }),
-    computed: {
-      ...mapState(['drawer']),
-      DRAWER_STATE :{
-        get() {
-          return this.drawer
-        },
-      }
-    },
-    methods: {
-      ...mapActions([ 'TOGGLE_DRAWER' ]),
-      logOut: function () {
-        window.localStorage.removeItem('token-s');
-        this.$router.push('/login');
-      }
+export default {
+  name: 'Header',
+  data: () => ({
+    config,
+    name: '',
+    email: '',
+  }),
+  computed: {
+    ...mapState(['drawer']),
+    DRAWER_STATE :{
+      get() {
+        return this.drawer
+      },
     }
-  };
+  },
+  methods: {
+    ...mapActions([ 'TOGGLE_DRAWER' ]),
+    logOut: function () {
+      window.localStorage.removeItem('token-s');
+      this.$router.push('/login');
+    }
+  }
+};
 </script>
 
 <style src="./Header.scss" lang="scss"></style>
