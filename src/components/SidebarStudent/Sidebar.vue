@@ -107,15 +107,8 @@ import {mapActions, mapState} from 'vuex'
       return {
         items: [
           { title: 'Home', icon: 'mdi-home', link: '/s/home' },
-          {
-            title: 'University Info',
-            icon: 'mdi-border-all',
-            model: false,
-            children: [
-              { title: 'Majors', icon: 'mdi-star', link: '/s/uni-majors'},
-              { title: 'Courses', icon: 'mdi-book-variant', link: '/s/uni-courses'},
-            ],
-          },
+          { title: 'Majors', icon: 'mdi-star', link: '/s/uni-majors' },
+          { title: 'Courses', icon: 'mdi-book-variant', link: '/s/uni-courses' },
           { title: 'Timetable', icon: 'mdi-account-multiple', link: '/s/timetable' },
           { title: 'Curriculum', icon: 'mdi-account-check', link: '/s/curriculum' },
           { divider: true },
