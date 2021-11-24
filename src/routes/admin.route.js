@@ -18,8 +18,8 @@ router.route('/')
   .get(getAdmins)
   .post(createAdmin)
 
-  router.route('/me')
-    .get(getMe)
+router.route('/me')
+  .get(getMe)
 
 router.route('/:id')
   .get(getAdmin)

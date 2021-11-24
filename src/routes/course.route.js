@@ -13,7 +13,7 @@ const router = express.Router()
 
 router.get('/', requireAuth(), listCourses)
 router.post('/', requireAuth(UserType.ADMIN), createCourse)
-router.get('/:id', requireAuth(), getCourse)
+router.get('/:id', getCourse)
 router.put('/:id', requireAuth(UserType.ADMIN), updateCourse)
 router.delete('/:id', requireAuth(UserType.ADMIN), deleteCourse)
 
