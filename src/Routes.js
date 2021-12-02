@@ -157,7 +157,7 @@ const router = new Router({
 router.beforeEach(({meta, path}, from, next) => {
   const { nf } = meta
 
-  const publicPages = ['/login']
+  const publicPages = ['/login', '/students/edit']
   const studentPages = ['/s', '/s/home', '/s/uni-majors', '/s/uni-courses']
 
   const authRequired = !publicPages.includes(path)
