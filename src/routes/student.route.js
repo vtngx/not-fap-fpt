@@ -19,7 +19,7 @@ router.post('/', requireAuth(UserType.ADMIN), createStudent)
 router.get('/me', requireAuth(UserType.STUDENT), getMe)
 router.get('/me/progress', requireAuth(UserType.STUDENT), getMyProgress)
 router.get('/me/requests', requireAuth(UserType.STUDENT), getMyRequests)
-router.get('/:id', requireAuth(UserType.ADMIN), getStudent)
+router.get('/:id', getStudent)
 router.put('/:id', requireAuth(UserType.ADMIN), updateStudent)
 router.delete('/:id', requireAuth(UserType.ADMIN), deleteStudent)
 
