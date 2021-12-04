@@ -14,7 +14,7 @@ const { UserType } = require('../_base/base.interface')
 
 const router = express.Router()
 
-router.get('/', requireAuth(UserType.ADMIN), getStudents)
+router.get('/', getStudents)
 router.post('/', requireAuth(UserType.ADMIN), createStudent)
 router.get('/me', requireAuth(UserType.STUDENT), getMe)
 router.get('/me/progress', requireAuth(UserType.STUDENT), getMyProgress)
