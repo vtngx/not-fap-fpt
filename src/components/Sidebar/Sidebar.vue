@@ -111,17 +111,17 @@ import {mapActions, mapState} from 'vuex'
           { title: 'Students', icon: 'mdi-account-check', link: '/students' },
           { title: 'Majors', icon: 'mdi-star', link: '/majors' },
           { title: 'Courses', icon: 'mdi-book-variant', link: '/courses' },
-          {
-            title: 'Classes',
-            icon: 'mdi-border-all',
-            link: '/icons',
-            model: false,
-            children: [
-              { title: 'Icons', icon: 'mdi-circle-small', link: '/icons'},
-              { title: 'Charts', icon: 'mdi-circle-small', link: '/charts'},
-              { title: 'Maps', icon: 'mdi-circle-small', link: '/maps'},
-            ],
-          },
+          // {
+          //   title: 'Classes',
+          //   icon: 'mdi-border-all',
+          //   link: '/icons',
+          //   model: false,
+          //   children: [
+          //     { title: 'Icons', icon: 'mdi-circle-small', link: '/icons'},
+          //     { title: 'Charts', icon: 'mdi-circle-small', link: '/charts'},
+          //     { title: 'Maps', icon: 'mdi-circle-small', link: '/maps'},
+          //   ],
+          // },
           // { title: 'News', icon: 'mdi-email', link: '/dashboard' },
           { title: 'Requests', icon: 'mdi-bell', link: '/dashboard' },
 

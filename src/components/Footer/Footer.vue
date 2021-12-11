@@ -38,7 +38,7 @@ export default {
   data: () => ({
     config,
     icons: [
-      { icon: 'mdi-github', link: '' },
+      { icon: 'mdi-github', link: 'https://github.com/vtngx/oswas' },
 
     ],
     links: [
